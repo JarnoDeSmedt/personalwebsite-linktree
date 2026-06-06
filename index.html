@@ -1,79 +1,738 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jarno De Smedt - Olympisch Handboogschutter</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jarno De Smedt — Olympic Archer & AI Engineer</title>
+
+  <!-- SEO / social -->
+  <meta name="description" content="Jarno De Smedt — Belgian Olympic recurve archer (Tokyo 2020) and AI engineer. Coaching, equipment tuning, custom websites, apps and AI automation. Open to projects, sponsors & speaking." />
+  <meta name="author" content="Jarno De Smedt" />
+  <meta name="theme-color" content="#0f1117" />
+  <link rel="canonical" href="https://jarnodesmedt.be/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Jarno De Smedt — Olympic Archer & AI Engineer" />
+  <meta property="og:description" content="Belgian Olympic recurve archer & AI engineer. Open to projects, sponsors & speaking." />
+  <meta property="og:image" content="assets/profile1.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="assets/profile1.webp" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>" />
+
+  <!-- Modern fonts: Clash Display (headings) + General Sans (body) via Fontshare -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- ============================================================
+       ANALYTICS (privacy-friendly). Pick ONE and fill in your domain.
+       Plausible (paid, recommended): uncomment + set data-domain.
+       ============================================================ -->
+  <!-- <script defer data-domain="jarnodesmedt.be" src="https://plausible.io/js/script.outbound-links.js"></script> -->
+  <!-- Free alternative — GoatCounter: <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
+  <!-- Or Google Analytics 4: replace G-XXXX below and uncomment.
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXX');</script>
+  -->
+
   <style>
-    body {
-      background-image: url('assets/background.jpg');
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+    :root {
+      --bg:        #0f1117;
+      --bg-2:      #151821;
+      --ink:       #f4f5f8;
+      --muted:     #aeb2c0;
+      --faint:     #7e8294;
+      --card:      rgba(22, 25, 34, 0.62);
+      --card-2:    rgba(30, 34, 46, 0.62);
+      --border:    rgba(255, 255, 255, 0.10);
+      --border-2:  rgba(255, 255, 255, 0.18);
+      --gold:      #f4c545;   /* archery gold / Belgian yellow */
+      --red:       #ef3340;   /* Belgian red */
+      --pin:       #57e389;   /* sight-pin green */
+      --radius:    16px;
+      --maxw:      1080px;
+      --shadow:    0 18px 50px rgba(0,0,0,.45);
     }
-    .profile-img {
-      object-fit: cover;
-      object-position: center;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'General Sans', system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      overflow-x: hidden;
+      position: relative;
+    }
+    h1, h2, h3, .display { font-family: 'Clash Display', 'General Sans', sans-serif; }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ---------------- Lighter, more visible background ---------------- */
+    .bg-photo {
+      position: fixed; inset: 0; z-index: -3;
+      background: url('assets/background.webp') center 18% / cover no-repeat;
+      filter: brightness(0.62) saturate(1.05);   /* lighter than before */
+      transform: scale(1.04);
+    }
+    .bg-scrim {
+      position: fixed; inset: 0; z-index: -2;
+      background:
+        linear-gradient(180deg, rgba(15,17,23,0.30) 0%, rgba(15,17,23,0.55) 40%, rgba(15,17,23,0.90) 100%),
+        radial-gradient(60% 50% at 80% 0%, rgba(244,197,69,0.08), transparent 70%);
+    }
+
+    /* ---------------- Aiming reticle cursor (desktop, fine pointer) ---------------- */
+    @media (hover: hover) and (pointer: fine) {
+      body { cursor: none; }
+      a, button, summary, input, textarea, label { cursor: none; }
+    }
+    #sight, #pin { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; will-change: transform; }
+    #sight {
+      width: 64px; height: 64px; margin: -32px 0 0 -32px;
+      transition: width .18s ease, height .18s ease, margin .18s ease, opacity .25s;
+      opacity: 0;
+    }
+    #sight svg { width: 100%; height: 100%; overflow: visible; }
+    #sight .ring  { stroke: rgba(255,255,255,.85); stroke-width: 1.5; fill: none; }
+    #sight .tick  { stroke: rgba(255,255,255,.85); stroke-width: 1.5; }
+    #sight .brk   { stroke: var(--gold); stroke-width: 2.5; fill: none; opacity: 0; transition: opacity .18s; }
+    #pin {
+      width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%;
+      background: var(--pin); box-shadow: 0 0 8px 1px var(--pin); opacity: 0; transition: opacity .25s, background .15s, box-shadow .15s;
+    }
+    /* lock-on state when hovering interactive elements ("target acquired") */
+    body.aim #sight { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+    body.aim #sight .ring { stroke: var(--gold); }
+    body.aim #sight .brk { opacity: 1; }
+    body.aim #pin { background: var(--gold); box-shadow: 0 0 10px 2px var(--gold); }
+    body.shoot #sight { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+    @media (hover: none), (prefers-reduced-motion: reduce) {
+      #sight, #pin { display: none; }
+      body, a, button, summary { cursor: auto; }
+    }
+
+    /* ---------------- Layout ---------------- */
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+    section { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 11px;
+      font-size: .74rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .eyebrow .num { font-family: 'Clash Display'; color: var(--faint); display: inline-flex; align-items: center; gap: 11px; }
+    .eyebrow .num::after { content: ''; width: 26px; height: 1px; background: var(--border-2); }
+    .punch { color: var(--muted); font-size: 1.02rem; max-width: 46ch; }
+
+    /* ---------------- Top bar ---------------- */
+    .topbar {
+      position: sticky; top: 0; z-index: 60;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(15,17,23,.7), rgba(15,17,23,0));
+    }
+    .topbar .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-family: 'Clash Display'; }
+    .brand .dot {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: radial-gradient(circle, var(--gold) 0 34%, #fff 34% 46%, var(--red) 46% 60%, #fff 60% 72%, #1a1a1a 72% 100%);
+    }
+    .nav { display: flex; align-items: center; gap: 18px; }
+    .nav a { color: var(--muted); font-size: .9rem; transition: color .2s; }
+    .nav a:hover { color: var(--ink); }
+    .lang { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .lang button { background: transparent; border: none; color: var(--faint); font: 600 .76rem 'General Sans'; padding: 6px 11px; transition: .2s; }
+    .lang button.active { background: var(--gold); color: #20180a; }
+    .nav-links { display: flex; gap: 18px; }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* ---------------- Hero ---------------- */
+    .hero { padding: clamp(28px, 6vw, 64px) 0 36px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 5vw, 56px); align-items: center; }
+    .status {
+      display: inline-flex; align-items: center; gap: 9px; font-size: .8rem; font-weight: 500;
+      color: #c8f7d8; background: rgba(46,204,113,.12); border: 1px solid rgba(46,204,113,.28);
+      padding: 6px 13px; border-radius: 999px; margin-bottom: 20px;
+    }
+    .status .live { width: 8px; height: 8px; border-radius: 50%; background: var(--pin); box-shadow: 0 0 0 0 rgba(87,227,137,.6); animation: live 2.2s infinite; }
+    @keyframes live { 0%{box-shadow:0 0 0 0 rgba(87,227,137,.5);} 70%{box-shadow:0 0 0 8px rgba(87,227,137,0);} 100%{box-shadow:0 0 0 0 rgba(87,227,137,0);} }
+    .hero h1 { font-weight: 600; font-size: clamp(2.5rem, 6.5vw, 4rem); line-height: 1.02; letter-spacing: -.02em; }
+    .hero .role { font-family: 'Clash Display'; font-weight: 500; font-size: clamp(1.05rem, 2.6vw, 1.35rem); color: var(--gold); margin-top: 6px; }
+    .hero .role .x { color: var(--muted); font-weight: 400; padding: 0 .3em; }
+    .hero p.lead { color: var(--muted); font-size: 1.05rem; margin: 18px 0 26px; max-width: 42ch; }
+    .hero .loc { color: var(--faint); font-size: .85rem; margin-top: 16px; }
+    .hero .loc i { color: var(--gold); }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px; font: 500 .96rem 'General Sans';
+      padding: 13px 22px; border-radius: 999px; border: 1px solid transparent; transition: transform .16s, box-shadow .18s, background .2s, border-color .2s;
+    }
+    .btn-primary { background: var(--gold); color: #20180a; box-shadow: 0 10px 26px rgba(244,197,69,.25); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(244,197,69,.4); }
+    .btn-ghost { background: rgba(255,255,255,.05); border-color: var(--border-2); color: var(--ink); }
+    .btn-ghost:hover { background: rgba(255,255,255,.1); transform: translateY(-2px); }
+
+    .hero-photo { position: relative; }
+    .hero-photo .frame {
+      border-radius: 22px; overflow: hidden; border: 1px solid var(--border-2);
+      box-shadow: var(--shadow); aspect-ratio: 4/3.2;
+    }
+    .hero-photo .frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+    .hero-photo .tag {
+      position: absolute; left: 14px; bottom: 14px;
+      display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 500;
+      background: rgba(15,17,23,.72); backdrop-filter: blur(8px); border: 1px solid var(--border);
+      padding: 7px 13px; border-radius: 999px;
+    }
+    .hero-photo .tag i { color: var(--gold); }
+    @media (max-width: 820px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-photo { order: -1; max-width: 460px; }
+    }
+
+    /* socials inline */
+    .socials { display: flex; gap: 10px; margin-top: 22px; }
+    .socials a {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+      background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--muted);
+      font-size: 1.05rem; transition: .2s;
+    }
+    .socials a:hover { color: var(--ink); border-color: var(--border-2); transform: translateY(-2px); background: rgba(255,255,255,.1); }
+
+    /* ---------------- Generic section spacing ---------------- */
+    .block { padding: clamp(40px, 7vw, 72px) 0; }
+    .block-head { margin-bottom: 26px; }
+    .block-head h2 { font-weight: 600; font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: -.01em; }
+
+    /* ---------------- Highlights chips ---------------- */
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 9px; font-size: .9rem; font-weight: 500;
+      background: var(--card); border: 1px solid var(--border); padding: 10px 15px; border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+    .chip i { color: var(--gold); }
+    .chip b { font-family: 'Clash Display'; font-weight: 600; }
+
+    /* ---------------- Disclosure (Learn more) ---------------- */
+    details.more { margin-top: 18px; border-top: 1px solid var(--border); }
+    details.more > summary {
+      list-style: none; display: inline-flex; align-items: center; gap: 8px; padding-top: 16px;
+      font-size: .9rem; font-weight: 500; color: var(--gold);
+    }
+    details.more > summary::-webkit-details-marker { display: none; }
+    details.more > summary .ch { transition: transform .2s; }
+    details.more[open] > summary .ch { transform: rotate(180deg); }
+    details.more .content { padding-top: 14px; animation: fade .35s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .palmares { display: grid; gap: 8px; color: var(--muted); font-size: .95rem; }
+    .palmares li { list-style: none; display: flex; gap: 10px; }
+    .palmares li i { color: var(--gold); font-size: .65rem; margin-top: .55em; }
+
+    /* ---------------- What I do ---------------- */
+    .do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .do-grid { grid-template-columns: 1fr; } }
+    .do-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 26px 24px; backdrop-filter: blur(10px); transition: border-color .25s, transform .2s;
+    }
+    .do-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+    .do-card .ic { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; font-size: 1.3rem; background: rgba(244,197,69,.12); color: var(--gold); margin-bottom: 16px; }
+    .do-card h3 { font-weight: 600; font-size: 1.3rem; }
+    .do-card .sub { color: var(--muted); margin: 8px 0 4px; }
+    .do-card ul { list-style: none; display: grid; gap: 9px; margin-top: 4px; }
+    .do-card ul li { display: flex; gap: 10px; color: var(--muted); font-size: .92rem; }
+    .do-card ul li i { color: var(--gold); font-size: .62rem; margin-top: .6em; flex: none; }
+
+    /* ---------------- Sponsors marquee ---------------- */
+    .sponsors-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+    .sponsor-cta { font-size: .92rem; color: var(--muted); }
+    .sponsor-cta a { color: var(--gold); border-bottom: 1px solid rgba(244,197,69,.4); }
+    .marquee { position: relative; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .marquee-track { display: flex; gap: 18px; width: max-content; animation: scroll 34s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+    .logo {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      min-width: 178px; height: 88px; padding: 0 22px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      color: var(--faint); filter: grayscale(1); opacity: .8; transition: .25s; backdrop-filter: blur(6px);
+    }
+    .logo:hover { filter: grayscale(0); opacity: 1; color: var(--muted); border-color: var(--border-2); }
+    .logo img { max-height: 46px; max-width: 120px; object-fit: contain; }
+    .logo .ph { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: .72rem; }
+    .logo .ph i { font-size: 1.15rem; color: var(--gold); opacity: .7; }
+
+    /* ---------------- Links / find me ---------------- */
+    .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 720px) { .links { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px) { .links { grid-template-columns: 1fr; } }
+    .link {
+      display: flex; align-items: center; gap: 13px; padding: 15px 16px;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      transition: transform .16s, border-color .2s, background .2s; backdrop-filter: blur(8px);
+    }
+    .link:hover { transform: translateY(-2px); border-color: var(--border-2); background: var(--card-2); }
+    .link .ic { width: 40px; height: 40px; flex: none; border-radius: 11px; display: grid; place-items: center; font-size: 1.1rem; background: rgba(255,255,255,.06); color: var(--accent, var(--gold)); }
+    .link .ic img { width: 22px; height: 22px; object-fit: contain; }
+    .link .t { font-weight: 500; font-size: .96rem; }
+    .link .s { font-size: .78rem; color: var(--faint); }
+    .link .go { margin-left: auto; color: var(--faint); transition: transform .2s, color .2s; }
+    .link:hover .go { transform: translateX(3px); color: var(--gold); }
+
+    /* ---------------- Contact ---------------- */
+    .contact-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(24px, 4vw, 44px); align-items: start; }
+    @media (max-width: 760px) { .contact-grid { grid-template-columns: 1fr; } }
+    .contact-aside h2 { font-weight: 600; font-size: clamp(1.7rem, 4vw, 2.3rem); }
+    .contact-aside .punch { margin: 12px 0 20px; }
+    .contact-aside .direct { display: grid; gap: 10px; margin-top: 18px; }
+    .contact-aside .direct a { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: .92rem; }
+    .contact-aside .direct a i { color: var(--gold); width: 18px; text-align: center; }
+
+    form { display: grid; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 26px; backdrop-filter: blur(10px); }
+    .field { display: grid; gap: 7px; }
+    .field label { font-size: .82rem; color: var(--muted); font-weight: 500; }
+    .field input, .field textarea {
+      width: 100%; background: rgba(10,12,17,.6); border: 1px solid var(--border); border-radius: 11px;
+      padding: 12px 14px; color: var(--ink); font: 400 .95rem 'General Sans'; transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(244,197,69,.15); }
+    .field textarea { resize: vertical; min-height: 120px; }
+    form .hp { position: absolute; left: -9999px; opacity: 0; }
+    form button { justify-content: center; margin-top: 2px; }
+    .form-status { font-size: .9rem; min-height: 1.2em; }
+    .form-status.ok { color: var(--pin); }
+    .form-status.err, .form-status.warn { color: #ffb4ad; }
+
+    /* ---------------- Footer ---------------- */
+    footer { border-top: 1px solid var(--border); margin-top: 20px; }
+    footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 28px; padding-bottom: 40px; color: var(--faint); font-size: .82rem; }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--gold); }
+
+    /* ---------------- Scroll reveal (subtle, editorial) ---------------- */
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1); }
+    .rv.in { opacity: 1; transform: none; }
+    /* staggered children */
+    .stagger > * { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1); }
+    .rv.in .stagger > * { opacity: 1; transform: none; }
+    .rv.in .stagger > *:nth-child(2){ transition-delay: .06s; }
+    .rv.in .stagger > *:nth-child(3){ transition-delay: .12s; }
+    .rv.in .stagger > *:nth-child(4){ transition-delay: .18s; }
+    .rv.in .stagger > *:nth-child(5){ transition-delay: .24s; }
+    .rv.in .stagger > *:nth-child(6){ transition-delay: .30s; }
+    /* parallax target (driven by JS on scroll) */
+    .parallax { will-change: transform; }
+    @media (prefers-reduced-motion: reduce) {
+      .rv, .stagger > * { opacity: 1; transform: none; transition: none; }
+      .marquee-track { animation: none; }
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col items-center justify-center min-h-screen">
-  
-  <!-- Hero -->
-  <section class="text-center p-6">
-    <img src="assets/profile2.jpg" alt="Jarno De Smedt" class="profile-img w-48 h-48 rounded-full mx-auto shadow-lg">
-    <h1 class="text-3xl font-bold mt-4">Jarno De Smedt</h1>
-    <p class="text-lg text-gray-50 mt-2">Belgisch Olympisch Handboogschutter & AI Student</p>
-  </section>
-  
-  <!-- Introductie -->
-  <section class="max-w-xl text-center p-4 bg-white bg-opacity-60 rounded-2xl shadow-lg">
-    <p class="text-gray-700">
-      Ik ben Jarno De Smedt, Belgisch Olympisch handboogschutter en afgestudeerd in Toegepaste Informatica aan de AP Hogeschool Antwerpen. 
-      Momenteel vervolg ik mijn studies in Artificiële Intelligentie. 
-      Via deze pagina kan je mijn professionele en sportieve activiteiten volgen.
-    </p>
-  </section>
 
-  <!-- Links -->
-  <section class="mt-6 w-full max-w-sm">
-    <div class="flex flex-col space-y-4">
-      <a href="https://www.worldarchery.sport/profile/20515/jarno-de-smedt/biography" target="_blank" 
-        class="flex items-center justify-center bg-white text-gray-900 py-3 rounded-xl shadow hover:bg-gray-100 transition">
-        <img src="./assets/worldarchery.png"
-       alt="World Archery"
-       class="h-6 w-6 mr-2">World Archery Profile
-      </a>
-      <a href="https://www.linkedin.com/in/jarno-de-smedt/" target="_blank" 
-         class="flex items-center justify-center bg-blue-600 text-white py-3 rounded-xl shadow hover:bg-blue-700 transition">
-        <i class="fab fa-linkedin text-xl mr-2"></i> LinkedIn
-      </a>
-      <a href="https://github.com/jarnodesmedt" target="_blank" 
-         class="flex items-center justify-center bg-gray-800 text-white py-3 rounded-xl shadow hover:bg-black transition">
-        <i class="fab fa-github text-xl mr-2"></i> GitHub
-      </a>
-      <a href="https://www.instagram.com/jarnodesmedt" target="_blank" 
-         class="flex items-center justify-center bg-pink-500 text-white py-3 rounded-xl shadow hover:bg-pink-600 transition">
-        <i class="fab fa-instagram text-xl mr-2"></i> Instagram
-      </a>
-      <a href="https://www.facebook.com/jarnods.jarno/" target="_blank" 
-         class="flex items-center justify-center bg-blue-500 text-white py-3 rounded-xl shadow hover:bg-blue-600 transition">
-        <i class="fab fa-facebook text-xl mr-2"></i> Facebook
-      </a>
-      <a href="https://tinrate.com/u/jarnodesmedt" target="_blank" 
-         class="flex items-center justify-center bg-white text-gray-900 py-3 rounded-xl shadow hover:bg-gray-100 transition">
-        <img src="./assets/tinrate logo icon.svg" alt="Tinrate" class="h-6 w-6 mr-2"> Tinrate
-      </a>
+<body>
+  <div class="bg-photo"></div>
+  <div class="bg-scrim"></div>
+
+  <!-- Aiming reticle cursor -->
+  <div id="sight" aria-hidden="true">
+    <svg viewBox="0 0 64 64">
+      <circle class="ring" cx="32" cy="32" r="20" />
+      <line class="tick" x1="32" y1="4"  x2="32" y2="16" />
+      <line class="tick" x1="32" y1="48" x2="32" y2="60" />
+      <line class="tick" x1="4"  y1="32" x2="16" y2="32" />
+      <line class="tick" x1="48" y1="32" x2="60" y2="32" />
+      <path class="brk" d="M14 22 L14 14 L22 14" />
+      <path class="brk" d="M50 22 L50 14 L42 14" />
+      <path class="brk" d="M14 42 L14 50 L22 50" />
+      <path class="brk" d="M50 42 L50 50 L42 50" />
+    </svg>
+  </div>
+  <div id="pin" aria-hidden="true"></div>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top"><span class="dot"></span> Jarno De Smedt</a>
+      <div class="nav">
+        <div class="nav-links">
+          <a href="#do" data-en="Work with me" data-nl="Samenwerken">Work with me</a>
+          <a href="#links" data-en="Find me" data-nl="Vind mij">Find me</a>
+          <a href="#contact" data-en="Contact" data-nl="Contact">Contact</a>
+        </div>
+        <div class="lang" role="group" aria-label="Language">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="nl">NL</button>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="mt-10 text-gray-400 text-sm">
-    © 2026 Jarno De Smedt
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <span class="status"><span class="live"></span> <span data-en="Open to projects, sponsors & speaking" data-nl="Open voor projecten, sponsors & speaking">Open to projects, sponsors &amp; speaking</span></span>
+          <h1>Jarno De Smedt</h1>
+          <div class="role"><span data-en="Olympic Archer" data-nl="Olympisch Schutter">Olympic Archer</span><span class="x">×</span><span data-en="AI Engineer" data-nl="AI-Engineer">AI Engineer</span></div>
+          <p class="lead" data-en="Belgian recurve Olympian (Tokyo 2020) who also builds websites, apps and AI automations. Sport taught me precision — I bring the same to every project."
+             data-nl="Belgisch recurve-olympiër (Tokio 2020) die ook websites, apps en AI-automatisaties bouwt. Sport leerde me precisie — die breng ik in elk project.">
+            Belgian recurve Olympian (Tokyo 2020) who also builds websites, apps and AI automations. Sport taught me precision — I bring the same to every project.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#do"><i class="fa-solid fa-handshake"></i> <span data-en="Work with me" data-nl="Samenwerken">Work with me</span></a>
+            <a class="btn btn-ghost" href="#contact"><i class="fa-solid fa-paper-plane"></i> <span data-en="Get in touch" data-nl="Contacteer mij">Get in touch</span></a>
+          </div>
+          <div class="socials" aria-label="Social links">
+            <a href="https://www.linkedin.com/in/jarno-de-smedt/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/jarnodesmedt" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://github.com/jarnodesmedt" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.worldarchery.sport/profile/20515/jarno-de-smedt/biography" target="_blank" rel="noopener" aria-label="World Archery"><i class="fa-solid fa-bullseye"></i></a>
+          </div>
+          <div class="loc"><i class="fa-solid fa-location-dot"></i> Bornem, Belgium 🇧🇪</div>
+        </div>
+
+        <div class="hero-photo parallax" data-parallax="0.045">
+          <div class="frame">
+            <picture>
+              <source srcset="assets/profile1.webp" type="image/webp" />
+              <img src="assets/profile1.jpg" alt="Jarno De Smedt at full draw in the Belgian team kit" />
+            </picture>
+          </div>
+          <span class="tag"><i class="fa-solid fa-medal"></i> <span data-en="Tokyo 2020 Olympian" data-nl="Olympiër Tokio 2020">Tokyo 2020 Olympian</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACK RECORD -->
+    <section class="block" id="track">
+      <div class="wrap rv">
+        <div class="block-head">
+          <span class="eyebrow"><span class="num">01</span><span data-en="Track record" data-nl="Palmares">Track record</span></span>
+          <h2 data-en="Nearly a decade at the top of international recurve." data-nl="Bijna tien jaar aan de top van het internationale recurve.">Nearly a decade at the top of international recurve.</h2>
+        </div>
+        <div class="chips stagger">
+          <span class="chip"><i class="fa-solid fa-medal"></i> <b>Olympian</b> — Tokyo 2020</span>
+          <span class="chip"><i class="fa-solid fa-earth-europe"></i> <b>2×</b> <span data-en="European Games" data-nl="Europese Spelen">European Games</span></span>
+          <span class="chip"><i class="fa-solid fa-trophy"></i> <span data-en="World &amp; European Championships" data-nl="WK's &amp; EK's">World &amp; European Championships</span></span>
+          <span class="chip"><i class="fa-solid fa-bullseye"></i> <span data-en="World Cup circuit" data-nl="World Cup-circuit">World Cup circuit</span></span>
+        </div>
+
+        <details class="more">
+          <summary><span data-en="See full palmares" data-nl="Bekijk volledig palmares">See full palmares</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
+          <div class="content">
+            <ul class="palmares">
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Olympic Games — Tokyo 2020 · individual recurve (17th)" data-nl="Olympische Spelen — Tokio 2020 · individueel recurve (17e)">Olympic Games — Tokyo 2020 · individual recurve (17th)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="European Games — Minsk 2019 &amp; Kraków 2023" data-nl="Europese Spelen — Minsk 2019 &amp; Krakau 2023">European Games — Minsk 2019 &amp; Kraków 2023</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="World University Games — 2025" data-nl="Wereld­universiteitsspelen — 2025">World University Games — 2025</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Multiple World &amp; European Championships and World Cup stages" data-nl="Meerdere WK's, EK's en World Cup-manches">Multiple World &amp; European Championships and World Cup stages</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Belgian national recurve team — ~10 years of selections" data-nl="Belgische nationale recurveploeg — ~10 jaar selecties">Belgian national recurve team — ~10 years of selections</span></li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- WHAT I DO -->
+    <section class="block" id="do">
+      <div class="wrap rv">
+        <div class="block-head">
+          <span class="eyebrow"><span class="num">02</span><span data-en="What I do" data-nl="Wat ik doe">What I do</span></span>
+          <h2 data-en="Two worlds, one mindset: precision, patience, hitting the target." data-nl="Twee werelden, één mindset: precisie, geduld en de roos raken.">Two worlds, one mindset: precision, patience, hitting the target.</h2>
+          <p class="punch" style="margin-top:12px" data-en="No official agency — just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work."
+             data-nl="Geen officieel bureau — gewoon hands-on samenwerkingen en persoonlijke projecten. Een idee, een sessie of een partnership in gedachten? Laten we het waarmaken.">
+            No official agency — just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work.
+          </p>
+        </div>
+
+        <div class="do-grid stagger">
+          <div class="do-card">
+            <div class="ic"><i class="fa-solid fa-bullseye"></i></div>
+            <h3 data-en="Archery" data-nl="Handboogschieten">Archery</h3>
+            <p class="sub" data-en="Coaching, sessions &amp; equipment tuning." data-nl="Coaching, sessies &amp; materiaalafstelling.">Coaching, sessions &amp; equipment tuning.</p>
+            <details class="more">
+              <summary><span data-en="Learn more" data-nl="Lees meer">Learn more</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
+              <div class="content">
+                <ul>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Personal coaching &amp; technique training" data-nl="Persoonlijke coaching &amp; techniektraining">Personal coaching &amp; technique training</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Group sessions, teambuilding &amp; parties" data-nl="Groepssessies, teambuilding &amp; feestjes">Group sessions, teambuilding &amp; parties</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Bow &amp; arrow tuning, equipment advice" data-nl="Boog- &amp; pijlafstelling, materiaaladvies">Bow &amp; arrow tuning, equipment advice</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Intro sessions for clubs &amp; beginners" data-nl="Initiaties voor clubs &amp; beginners">Intro sessions for clubs &amp; beginners</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="do-card">
+            <div class="ic"><i class="fa-solid fa-microchip"></i></div>
+            <h3 data-en="Tech &amp; IT" data-nl="Tech &amp; IT">Tech &amp; IT</h3>
+            <p class="sub" data-en="Websites, apps &amp; AI automation." data-nl="Websites, apps &amp; AI-automatisatie.">Websites, apps &amp; AI automation.</p>
+            <details class="more">
+              <summary><span data-en="Learn more" data-nl="Lees meer">Learn more</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
+              <div class="content">
+                <ul>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Custom websites &amp; business apps" data-nl="Custom websites &amp; business-apps">Custom websites &amp; business apps</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="AI automation &amp; n8n workflows" data-nl="AI-automatisatie &amp; n8n-workflows">AI automation &amp; n8n workflows</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Odoo, Shopify &amp; e-commerce" data-nl="Odoo, Shopify &amp; e-commerce">Odoo, Shopify &amp; e-commerce</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Home automation (domotica) &amp; smart tech" data-nl="Domotica &amp; slimme techniek">Home automation (domotica) &amp; smart tech</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Process &amp; efficiency optimisation" data-nl="Proces- &amp; efficiëntie-optimalisatie">Process &amp; efficiency optimisation</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section class="block" id="sponsors">
+      <div class="wrap rv">
+        <div class="sponsors-head">
+          <div>
+            <span class="eyebrow"><span class="num">03</span><span data-en="Sponsors &amp; collaborators" data-nl="Sponsors &amp; partners">Sponsors &amp; collaborators</span></span>
+            <h2 data-en="Backed by the people who believe in the journey." data-nl="Gesteund door wie in het traject gelooft.">Backed by the people who believe in the journey.</h2>
+          </div>
+          <p class="sponsor-cta" data-en='Open to sponsorships, partnerships &amp; speaking — <a href="#contact">let&#39;s talk</a>.'
+             data-nl='Open voor sponsoring, partnerships &amp; speaking — <a href="#contact">laten we praten</a>.'>
+            Open to sponsorships, partnerships &amp; speaking — <a href="#contact">let's talk</a>.
+          </p>
+        </div>
+
+        <!-- ============================================================
+             SPONSOR LOGOS — replace the placeholders below.
+             For each sponsor use:
+               <div class="logo"><img src="assets/sponsors/NAME.svg" alt="NAME"></div>
+             Keep the list duplicated (two identical halves) for the
+             seamless infinite scroll. Add the same item to BOTH halves.
+             ============================================================ -->
+        <div class="marquee">
+          <div class="marquee-track" id="logoTrack">
+            <!-- placeholders ×6 (auto-duplicated by JS for the loop) -->
+            <div class="logo"><span class="ph"><i class="fa-solid fa-bullseye"></i> <span data-en="Your logo here" data-nl="Jouw logo hier">Your logo here</span></span></div>
+            <div class="logo"><span class="ph"><i class="fa-solid fa-feather-pointed"></i> Sponsor</span></div>
+            <div class="logo"><span class="ph"><i class="fa-solid fa-microchip"></i> Partner</span></div>
+            <div class="logo"><span class="ph"><i class="fa-solid fa-shield-halved"></i> Sponsor</span></div>
+            <div class="logo"><span class="ph"><i class="fa-solid fa-bolt"></i> Partner</span></div>
+            <div class="logo"><span class="ph"><i class="fa-solid fa-handshake"></i> <span data-en="Collaborator" data-nl="Partner">Collaborator</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINKS -->
+    <section class="block" id="links">
+      <div class="wrap rv">
+        <div class="block-head">
+          <span class="eyebrow"><span class="num">04</span><span data-en="Find me" data-nl="Vind mij">Find me</span></span>
+          <h2 data-en="Pick the channel that fits." data-nl="Kies het kanaal dat past.">Pick the channel that fits.</h2>
+        </div>
+        <div class="links stagger">
+          <a class="link" style="--accent:#ffffff" href="https://www.worldarchery.sport/profile/20515/jarno-de-smedt/biography" target="_blank" rel="noopener">
+            <span class="ic"><img src="assets/worldarchery.png" alt="" /></span>
+            <span><span class="t">World Archery</span><br><span class="s" data-en="Profile &amp; results" data-nl="Profiel &amp; resultaten">Profile &amp; results</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+          <a class="link" style="--accent:#ef3340" href="https://teambelgium.be/en/athlete/Jarno-De-Smedt-424" target="_blank" rel="noopener">
+            <span class="ic"><i class="fa-solid fa-flag"></i></span>
+            <span><span class="t">Team Belgium</span><br><span class="s" data-en="Athlete page" data-nl="Atletenpagina">Athlete page</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+          <a class="link" style="--accent:#0a66c2" href="https://www.linkedin.com/in/jarno-de-smedt/" target="_blank" rel="noopener">
+            <span class="ic"><i class="fa-brands fa-linkedin-in"></i></span>
+            <span><span class="t">LinkedIn</span><br><span class="s" data-en="Professional &amp; IT" data-nl="Professioneel &amp; IT">Professional &amp; IT</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+          <a class="link" style="--accent:#e1306c" href="https://www.instagram.com/jarnodesmedt" target="_blank" rel="noopener">
+            <span class="ic"><i class="fa-brands fa-instagram"></i></span>
+            <span><span class="t">Instagram</span><br><span class="s" data-en="Training &amp; competition" data-nl="Training &amp; wedstrijd">Training &amp; competition</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+          <a class="link" style="--accent:#e6e6e6" href="https://github.com/jarnodesmedt" target="_blank" rel="noopener">
+            <span class="ic"><i class="fa-brands fa-github"></i></span>
+            <span><span class="t">GitHub</span><br><span class="s" data-en="Code &amp; projects" data-nl="Code &amp; projecten">Code &amp; projects</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+          <a class="link" style="--accent:#f4c545" href="https://tinrate.com/u/jarnodesmedt" target="_blank" rel="noopener">
+            <span class="ic"><img src="assets/tinrate logo icon.svg" alt="" /></span>
+            <span><span class="t">Tinrate</span><br><span class="s" data-en="Book a call" data-nl="Boek een gesprek">Book a call</span></span>
+            <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="block" id="contact">
+      <div class="wrap rv contact-grid">
+        <div class="contact-aside">
+          <span class="eyebrow"><span class="num">05</span><span data-en="Contact" data-nl="Contact">Contact</span></span>
+          <h2 data-en="Let's hit the mark together." data-nl="Laten we samen de roos raken.">Let's hit the mark together.</h2>
+          <p class="punch" data-en="A project, a session, a partnership, or just a question — drop me a line and I'll get back to you."
+             data-nl="Een project, een sessie, een partnership of gewoon een vraag — stuur me een bericht en ik kom bij je terug.">
+            A project, a session, a partnership, or just a question — drop me a line and I'll get back to you.
+          </p>
+          <div class="direct">
+            <a href="mailto:jarno.desmedt1@gmail.com"><i class="fa-solid fa-envelope"></i> jarno.desmedt1@gmail.com</a>
+            <a href="https://www.linkedin.com/in/jarno-de-smedt/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://tinrate.com/u/jarnodesmedt" target="_blank" rel="noopener"><i class="fa-solid fa-phone"></i> <span data-en="Book a 1-on-1 call" data-nl="Boek een 1-op-1 gesprek">Book a 1-on-1 call</span></a>
+          </div>
+        </div>
+
+        <!-- Contact form. Set the Formspree endpoint below (https://formspree.io/f/XXXX).
+             To use Netlify Forms instead: add  netlify  and  name="contact"  to the <form>. -->
+        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="field">
+            <label for="name" data-en="Name" data-nl="Naam">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email" data-en="Email" data-nl="E-mail">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="message" data-en="Message" data-nl="Bericht">Message</label>
+            <textarea id="message" name="message" required placeholder=""></textarea>
+          </div>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> <span data-en="Send message" data-nl="Verstuur bericht">Send message</span></button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Jarno De Smedt · Bornem, Belgium 🇧🇪</div>
+      <div data-en="Archer by trade · builder by nature" data-nl="Schutter van beroep · bouwer van nature">Archer by trade · builder by nature</div>
+    </div>
   </footer>
 
+  <!-- Smooth inertia scroll (editorial feel, à la the reference site) -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script>
+    /* ---------- Year ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- Smooth scroll + parallax ---------- */
+    (function () {
+      const plx = Array.from(document.querySelectorAll('[data-parallax]'));
+      function parallax() {
+        const vh = window.innerHeight;
+        for (const el of plx) {
+          const r = el.getBoundingClientRect();
+          const center = r.top + r.height / 2 - vh / 2;
+          el.style.transform = 'translateY(' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px)';
+        }
+      }
+
+      if (window.Lenis && !prefersReduced) {
+        const lenis = new Lenis({ lerp: 0.14, smoothWheel: true });
+        lenis.on('scroll', parallax);
+        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        // route in-page anchor links through Lenis
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+          a.addEventListener('click', (e) => {
+            const id = a.getAttribute('href');
+            if (id.length > 1) { e.preventDefault(); lenis.scrollTo(id, { offset: -10 }); }
+          });
+        });
+      } else {
+        window.addEventListener('scroll', parallax, { passive: true });
+      }
+      parallax();
+    })();
+
+    /* ---------- Language toggle (EN/NL) ---------- */
+    let lang = localStorage.getItem('lang') || 'en';
+    function applyLang(l) {
+      lang = l; localStorage.setItem('lang', l); document.documentElement.lang = l;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const v = el.getAttribute('data-' + l);
+        if (v === null) return;
+        // allow inline links (e.g. sponsor CTA) via innerHTML, plain text otherwise
+        if (v.indexOf('<') !== -1) el.innerHTML = v; else el.textContent = v;
+      });
+      document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+    }
+    document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+    applyLang(lang);
+
+    /* ---------- Sponsors: duplicate track for seamless loop ---------- */
+    (function () {
+      const track = document.getElementById('logoTrack');
+      if (track) track.innerHTML += track.innerHTML; // second identical half
+    })();
+
+    /* ---------- Scroll reveal ---------- */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+    /* ---------- Aiming reticle cursor ---------- */
+    (function () {
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const sight = document.getElementById('sight');
+      const pin = document.getElementById('pin');
+      if (!fine || reduce || !sight || !pin) return;
+
+      let tx = window.innerWidth / 2, ty = window.innerHeight / 2;  // target (mouse)
+      let sx = tx, sy = ty;                                          // sight (lerped)
+      let shown = false;
+
+      window.addEventListener('mousemove', (e) => {
+        tx = e.clientX; ty = e.clientY;
+        pin.style.transform = `translate(${tx}px, ${ty}px)`;        // pin = instant
+        if (!shown) { shown = true; sight.style.opacity = '1'; pin.style.opacity = '1'; }
+      });
+      window.addEventListener('mouseout', (e) => { if (!e.relatedTarget) { sight.style.opacity = '0'; pin.style.opacity = '0'; shown = false; } });
+
+      // lock-on when over interactive elements
+      const sel = 'a, button, summary, input, textarea, label, [data-aim]';
+      document.addEventListener('mouseover', (e) => { if (e.target.closest(sel)) document.body.classList.add('aim'); });
+      document.addEventListener('mouseout',  (e) => { if (e.target.closest(sel)) document.body.classList.remove('aim'); });
+      document.addEventListener('mousedown', () => document.body.classList.add('shoot'));
+      document.addEventListener('mouseup',   () => document.body.classList.remove('shoot'));
+
+      (function loop() {
+        sx += (tx - sx) * 0.18; sy += (ty - sy) * 0.18;             // ring settles toward target
+        sight.style.transform = `translate(${sx}px, ${sy}px)`;
+        requestAnimationFrame(loop);
+      })();
+    })();
+
+    /* ---------- Contact form (Formspree, AJAX) ---------- */
+    (function () {
+      const form = document.getElementById('contactForm');
+      const status = document.getElementById('formStatus');
+      if (!form) return;
+      const msg = {
+        warn: { en: 'Form isn\'t connected yet — email me directly for now.', nl: 'Formulier nog niet gekoppeld — mail me voorlopig rechtstreeks.' },
+        send: { en: 'Sending…', nl: 'Versturen…' },
+        ok:   { en: 'Thanks! Your message is on its way. 🎯', nl: 'Bedankt! Je bericht is onderweg. 🎯' },
+        err:  { en: 'Something went wrong — please email me directly.', nl: 'Er ging iets mis — mail me rechtstreeks.' }
+      };
+      const t = (k) => msg[k][document.documentElement.lang] || msg[k].en;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (form.action.indexOf('YOUR_FORM_ID') !== -1) { status.className = 'form-status warn'; status.textContent = t('warn'); return; }
+        status.className = 'form-status'; status.textContent = t('send');
+        try {
+          const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+          if (res.ok) { form.reset(); status.className = 'form-status ok'; status.textContent = t('ok'); }
+          else { status.className = 'form-status err'; status.textContent = t('err'); }
+        } catch (_) { status.className = 'form-status err'; status.textContent = t('err'); }
+      });
+    })();
+  </script>
 </body>
 </html>
