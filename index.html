@@ -43,8 +43,8 @@
       --ink:       #f4f5f8;
       --muted:     #aeb2c0;
       --faint:     #7e8294;
-      --card:      rgba(22, 25, 34, 0.62);
-      --card-2:    rgba(30, 34, 46, 0.62);
+      --card:      rgba(22, 25, 34, 0.82);
+      --card-2:    rgba(30, 34, 46, 0.82);
       --border:    rgba(255, 255, 255, 0.10);
       --border-2:  rgba(255, 255, 255, 0.18);
       --gold:      #f4c545;   /* archery gold / Belgian yellow */
@@ -74,8 +74,7 @@
     .bg-photo {
       position: fixed; inset: 0; z-index: -3;
       background: url('assets/background.webp') center 18% / cover no-repeat;
-      filter: brightness(0.62) saturate(1.05);   /* lighter than before */
-      transform: scale(1.04);
+      /* darkening is baked into the .webp — no live filter (keeps scrolling smooth) */
     }
     .bg-scrim {
       position: fixed; inset: 0; z-index: -2;
@@ -129,8 +128,7 @@
     /* ---------------- Top bar ---------------- */
     .topbar {
       position: sticky; top: 0; z-index: 60;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(15,17,23,.7), rgba(15,17,23,0));
+      background: linear-gradient(180deg, rgba(15,17,23,.94), rgba(15,17,23,.6) 55%, rgba(15,17,23,0));
     }
     .topbar .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-family: 'Clash Display'; }
@@ -183,7 +181,7 @@
     .hero-photo .tag {
       position: absolute; left: 14px; bottom: 14px;
       display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 500;
-      background: rgba(15,17,23,.72); backdrop-filter: blur(8px); border: 1px solid var(--border);
+      background: rgba(15,17,23,.85); border: 1px solid var(--border);
       padding: 7px 13px; border-radius: 999px;
     }
     .hero-photo .tag i { color: var(--gold); }
@@ -211,7 +209,6 @@
     .chip {
       display: inline-flex; align-items: center; gap: 9px; font-size: .9rem; font-weight: 500;
       background: var(--card); border: 1px solid var(--border); padding: 10px 15px; border-radius: 999px;
-      backdrop-filter: blur(8px);
     }
     .chip i { color: var(--gold); }
     .chip b { font-family: 'Clash Display'; font-weight: 600; }
@@ -236,7 +233,7 @@
     @media (max-width: 720px) { .do-grid { grid-template-columns: 1fr; } }
     .do-card {
       background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 26px 24px; backdrop-filter: blur(10px); transition: border-color .25s, transform .2s;
+      padding: 26px 24px; transition: border-color .25s, transform .2s;
     }
     .do-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
     .do-card .ic { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; font-size: 1.3rem; background: rgba(244,197,69,.12); color: var(--gold); margin-bottom: 16px; }
@@ -258,7 +255,7 @@
       display: flex; align-items: center; justify-content: center; gap: 10px;
       min-width: 178px; height: 88px; padding: 0 22px;
       background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      color: var(--faint); filter: grayscale(1); opacity: .8; transition: .25s; backdrop-filter: blur(6px);
+      color: var(--faint); filter: grayscale(1); opacity: .8; transition: .25s;
     }
     .logo:hover { filter: grayscale(0); opacity: 1; color: var(--muted); border-color: var(--border-2); }
     .logo img { max-height: 46px; max-width: 120px; object-fit: contain; }
@@ -272,7 +269,7 @@
     .link {
       display: flex; align-items: center; gap: 13px; padding: 15px 16px;
       background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-      transition: transform .16s, border-color .2s, background .2s; backdrop-filter: blur(8px);
+      transition: transform .16s, border-color .2s, background .2s;
     }
     .link:hover { transform: translateY(-2px); border-color: var(--border-2); background: var(--card-2); }
     .link .ic { width: 40px; height: 40px; flex: none; border-radius: 11px; display: grid; place-items: center; font-size: 1.1rem; background: rgba(255,255,255,.06); color: var(--accent, var(--gold)); }
@@ -291,7 +288,7 @@
     .contact-aside .direct a { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: .92rem; }
     .contact-aside .direct a i { color: var(--gold); width: 18px; text-align: center; }
 
-    form { display: grid; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 26px; backdrop-filter: blur(10px); }
+    form { display: grid; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 26px; }
     .field { display: grid; gap: 7px; }
     .field label { font-size: .82rem; color: var(--muted); font-weight: 500; }
     .field input, .field textarea {
@@ -392,7 +389,6 @@
             <a href="https://github.com/jarnodesmedt" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
             <a href="https://www.worldarchery.sport/profile/20515/jarno-de-smedt/biography" target="_blank" rel="noopener" aria-label="World Archery"><i class="fa-solid fa-bullseye"></i></a>
           </div>
-          <div class="loc"><i class="fa-solid fa-location-dot"></i> Bornem, Belgium 🇧🇪</div>
         </div>
 
         <div class="hero-photo parallax" data-parallax="0.045">
@@ -426,9 +422,10 @@
           <div class="content">
             <ul class="palmares">
               <li><i class="fa-solid fa-circle"></i> <span data-en="Olympic Games — Tokyo 2020 · individual recurve (17th)" data-nl="Olympische Spelen — Tokio 2020 · individueel recurve (17e)">Olympic Games — Tokyo 2020 · individual recurve (17th)</span></li>
-              <li><i class="fa-solid fa-circle"></i> <span data-en="European Games — Minsk 2019 &amp; Kraków 2023" data-nl="Europese Spelen — Minsk 2019 &amp; Krakau 2023">European Games — Minsk 2019 &amp; Kraków 2023</span></li>
-              <li><i class="fa-solid fa-circle"></i> <span data-en="World University Games — 2025" data-nl="Wereld­universiteitsspelen — 2025">World University Games — 2025</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="European Games — Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) " data-nl="Europese Spelen — Minsk 2019 &amp; Krakau 2023">European Games — Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) </span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="World University Games — 2025 (TODO)" data-nl="Wereld­universiteitsspelen — 2025">World University Games — 2025 (TODO)</span></li>
               <li><i class="fa-solid fa-circle"></i> <span data-en="Multiple World &amp; European Championships and World Cup stages" data-nl="Meerdere WK's, EK's en World Cup-manches">Multiple World &amp; European Championships and World Cup stages</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Winning streak of 5 years Belgian champion in a row" data-nl="Winstreak van 5 jaar Belgisch kampioen op een rij">Winning streak of 5 years Belgian champion in a row</span></li>
               <li><i class="fa-solid fa-circle"></i> <span data-en="Belgian national recurve team — ~10 years of selections" data-nl="Belgische nationale recurveploeg — ~10 jaar selecties">Belgian national recurve team — ~10 years of selections</span></li>
             </ul>
           </div>
@@ -457,10 +454,9 @@
               <summary><span data-en="Learn more" data-nl="Lees meer">Learn more</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
               <div class="content">
                 <ul>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="Personal coaching &amp; technique training" data-nl="Persoonlijke coaching &amp; techniektraining">Personal coaching &amp; technique training</span></li>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="Group sessions, teambuilding &amp; parties" data-nl="Groepssessies, teambuilding &amp; feestjes">Group sessions, teambuilding &amp; parties</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Group sessions, teambuilding &amp; private parties" data-nl="Groepssessies, teambuilding &amp; privé feesten">Group sessions, teambuilding &amp; private parties</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Intro sessions for businesses, groups, schools &amp; beginners" data-nl="Initiaties voor bedrijven, groepen, scholen &amp; beginners">Intro sessions for businesses, groups, schools &amp; beginners</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Bow &amp; arrow tuning, equipment advice" data-nl="Boog- &amp; pijlafstelling, materiaaladvies">Bow &amp; arrow tuning, equipment advice</span></li>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="Intro sessions for clubs &amp; beginners" data-nl="Initiaties voor clubs &amp; beginners">Intro sessions for clubs &amp; beginners</span></li>
                 </ul>
               </div>
             </details>
@@ -475,10 +471,12 @@
               <div class="content">
                 <ul>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Custom websites &amp; business apps" data-nl="Custom websites &amp; business-apps">Custom websites &amp; business apps</span></li>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="AI automation &amp; n8n workflows" data-nl="AI-automatisatie &amp; n8n-workflows">AI automation &amp; n8n workflows</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="data analysis en visualisation dashboards" data-nl="Data-analyse en visualisatie dashboards">data analysis en visualisation dashboards</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Odoo, Shopify &amp; e-commerce" data-nl="Odoo, Shopify &amp; e-commerce">Odoo, Shopify &amp; e-commerce</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Home automation (domotica) &amp; smart tech" data-nl="Domotica &amp; slimme techniek">Home automation (domotica) &amp; smart tech</span></li>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="Process &amp; efficiency optimisation" data-nl="Proces- &amp; efficiëntie-optimalisatie">Process &amp; efficiency optimisation</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="Process &amp; efficiency optimisation using AI, n8n workflows or other modern tools" data-nl="Proces- &amp; efficiëntie-optimalisatie">Process &amp; efficiency optimisation using AI, n8n workflows or other modern tools</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="IT consulting for small businesses &amp; individuals" data-nl="IT-consulting voor kleine bedrijven &amp; particulieren">IT consulting for small businesses &amp; individuals</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="(Almost) anything tech-related — just ask!" data-nl="(Bijna) alles tech-gerelateerd — vraag maar!" >(Almost) anything tech-related — just ask!</span></li>
                 </ul>
               </div>
             </details>
@@ -606,47 +604,35 @@
 
   <footer>
     <div class="wrap">
-      <div>© <span id="year"></span> Jarno De Smedt · Bornem, Belgium 🇧🇪</div>
-      <div data-en="Archer by trade · builder by nature" data-nl="Schutter van beroep · bouwer van nature">Archer by trade · builder by nature</div>
+      <div>© <span id="year"></span> Jarno De Smedt · Antwerpen, Belgium 🇧🇪</div>
+      <div data-en="Archer by trade · builder by nature" data-nl="Atleet als lifestyle · bouwer van nature">Archer by trade · builder by nature</div>
     </div>
   </footer>
 
-  <!-- Smooth inertia scroll (editorial feel, à la the reference site) -->
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script>
     /* ---------- Year ---------- */
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ---------- Smooth scroll + parallax ---------- */
+    /* ---------- Lightweight parallax on native scroll (rAF-throttled) ---------- */
     (function () {
       const plx = Array.from(document.querySelectorAll('[data-parallax]'));
-      function parallax() {
+      if (!plx.length || prefersReduced) return;
+      let ticking = false;
+      function update() {
         const vh = window.innerHeight;
         for (const el of plx) {
           const r = el.getBoundingClientRect();
           const center = r.top + r.height / 2 - vh / 2;
-          el.style.transform = 'translateY(' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px)';
+          el.style.transform = 'translate3d(0,' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px,0)';
         }
+        ticking = false;
       }
-
-      if (window.Lenis && !prefersReduced) {
-        const lenis = new Lenis({ lerp: 0.14, smoothWheel: true });
-        lenis.on('scroll', parallax);
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-        // route in-page anchor links through Lenis
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-          a.addEventListener('click', (e) => {
-            const id = a.getAttribute('href');
-            if (id.length > 1) { e.preventDefault(); lenis.scrollTo(id, { offset: -10 }); }
-          });
-        });
-      } else {
-        window.addEventListener('scroll', parallax, { passive: true });
-      }
-      parallax();
+      window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
     })();
 
     /* ---------- Language toggle (EN/NL) ---------- */
