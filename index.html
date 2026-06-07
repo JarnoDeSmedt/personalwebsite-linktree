@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jarno De Smedt — Olympic Archer & AI Engineer</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <title>Jarno De Smedt - Olympic Archer & AI Engineer</title>
 
   <!-- SEO / social -->
-  <meta name="description" content="Jarno De Smedt — Belgian Olympic recurve archer (Tokyo 2020) and AI engineer. Coaching, equipment tuning, custom websites, apps and AI automation. Open to projects, sponsors & speaking." />
+  <meta name="description" content="Jarno De Smedt - Belgian Olympic recurve archer (Tokyo 2020) and AI engineer. Coaching, equipment tuning, custom websites, apps and AI automation. Open to projects, sponsors & speaking." />
   <meta name="author" content="Jarno De Smedt" />
   <meta name="theme-color" content="#0f1117" />
   <link rel="canonical" href="https://jarnodesmedt.be/" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Jarno De Smedt — Olympic Archer & AI Engineer" />
+  <meta property="og:title" content="Jarno De Smedt - Olympic Archer & AI Engineer" />
   <meta property="og:description" content="Belgian Olympic recurve archer & AI engineer. Open to projects, sponsors & speaking." />
   <meta property="og:image" content="assets/profile1.webp" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -30,7 +31,7 @@
        Plausible (paid, recommended): uncomment + set data-domain.
        ============================================================ -->
   <!-- <script defer data-domain="jarnodesmedt.be" src="https://plausible.io/js/script.outbound-links.js"></script> -->
-  <!-- Free alternative — GoatCounter: <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
+  <!-- Free alternative - GoatCounter: <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
   <!-- Or Google Analytics 4: replace G-XXXX below and uncomment.
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXX');</script>
@@ -74,7 +75,7 @@
     .bg-photo {
       position: fixed; inset: 0; z-index: -3;
       background: url('assets/background.webp') center 18% / cover no-repeat;
-      /* darkening is baked into the .webp — no live filter (keeps scrolling smooth) */
+      /* darkening is baked into the .webp - no live filter (keeps scrolling smooth) */
     }
     .bg-scrim {
       position: fixed; inset: 0; z-index: -2;
@@ -213,17 +214,19 @@
     .chip i { color: var(--gold); }
     .chip b { font-family: 'Clash Display'; font-weight: 600; }
 
-    /* ---------------- Disclosure (Learn more) ---------------- */
-    details.more { margin-top: 18px; border-top: 1px solid var(--border); }
-    details.more > summary {
-      list-style: none; display: inline-flex; align-items: center; gap: 8px; padding-top: 16px;
-      font-size: .9rem; font-weight: 500; color: var(--gold);
+    /* ---------------- Scroll-scrubbed reveal (opens/closes with scroll) ---------------- */
+    .scrub { margin-top: 18px; border-top: 1px solid var(--border); --p: 0; }
+    .scrub-trigger {
+      display: inline-flex; align-items: center; gap: 8px; padding: 16px 0 0;
+      font: 500 .9rem 'General Sans', sans-serif; color: var(--gold);
+      background: none; border: none; text-align: left;
     }
-    details.more > summary::-webkit-details-marker { display: none; }
-    details.more > summary .ch { transition: transform .2s; }
-    details.more[open] > summary .ch { transform: rotate(180deg); }
-    details.more .content { padding-top: 14px; animation: fade .35s ease; }
-    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .scrub-trigger .ch { transition: transform .12s linear; transform: rotate(calc(var(--p) * 180deg)); }
+    .scrub-trigger .hint { color: var(--faint); font-weight: 400; font-size: .8rem; opacity: calc(1 - var(--p)); transition: opacity .15s; }
+    .scrub-body { height: auto; overflow: hidden; }            /* no-JS: stays open */
+    html.js .scrub-body { height: 0; will-change: height; }    /* JS: starts collapsed, scroll-driven */
+    .scrub-inner { padding-top: 14px; }
+    html.js .scrub-inner { opacity: 0; will-change: opacity, transform; }   /* fades in all at once via JS */
     .palmares { display: grid; gap: 8px; color: var(--muted); font-size: .95rem; }
     .palmares li { list-style: none; display: flex; gap: 10px; }
     .palmares li i { color: var(--gold); font-size: .65rem; margin-top: .55em; }
@@ -375,9 +378,9 @@
           <span class="status"><span class="live"></span> <span data-en="Open to projects, sponsors & speaking" data-nl="Open voor projecten, sponsors & speaking">Open to projects, sponsors &amp; speaking</span></span>
           <h1>Jarno De Smedt</h1>
           <div class="role"><span data-en="Olympic Archer" data-nl="Olympisch Schutter">Olympic Archer</span><span class="x">×</span><span data-en="AI Engineer" data-nl="AI-Engineer">AI Engineer</span></div>
-          <p class="lead" data-en="Belgian recurve Olympian (Tokyo 2020) who also builds websites, apps and AI automations. Sport taught me precision — I bring the same to every project."
-             data-nl="Belgisch recurve-olympiër (Tokio 2020) die ook websites, apps en AI-automatisaties bouwt. Sport leerde me precisie — die breng ik in elk project.">
-            Belgian recurve Olympian (Tokyo 2020) who also builds websites, apps and AI automations. Sport taught me precision — I bring the same to every project.
+          <p class="lead" data-en="Belgian recurve Olympian (Tokyo 2020), technology enthousiast who also builds websites, apps and AI automations. Sport taught me precision, I bring the same to every project!"
+             data-nl="Olympisch boogschutter(Tokio 2020) die ook websites, apps en AI-automatisaties bouwt. Sport leerde me precisie, hoe ik elk project aanpak!">
+            Belgian recurve Olympian (Tokyo 2020), technology enthousiast who also builds websites, apps and AI automations. Sport taught me precision, I bring the same to every project!
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#do"><i class="fa-solid fa-handshake"></i> <span data-en="Work with me" data-nl="Samenwerken">Work with me</span></a>
@@ -411,25 +414,29 @@
           <h2 data-en="Nearly a decade at the top of international recurve." data-nl="Bijna tien jaar aan de top van het internationale recurve.">Nearly a decade at the top of international recurve.</h2>
         </div>
         <div class="chips stagger">
-          <span class="chip"><i class="fa-solid fa-medal"></i> <b>Olympian</b> — Tokyo 2020</span>
+          <span class="chip"><i class="fa-solid fa-medal"></i> <b>Olympian</b> - Tokyo 2020</span>
           <span class="chip"><i class="fa-solid fa-earth-europe"></i> <b>2×</b> <span data-en="European Games" data-nl="Europese Spelen">European Games</span></span>
           <span class="chip"><i class="fa-solid fa-trophy"></i> <span data-en="World &amp; European Championships" data-nl="WK's &amp; EK's">World &amp; European Championships</span></span>
           <span class="chip"><i class="fa-solid fa-bullseye"></i> <span data-en="World Cup circuit" data-nl="World Cup-circuit">World Cup circuit</span></span>
         </div>
 
-        <details class="more">
-          <summary><span data-en="See full palmares" data-nl="Bekijk volledig palmares">See full palmares</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
-          <div class="content">
+        <div class="scrub" data-scrub>
+          <button class="scrub-trigger" type="button" aria-expanded="false">
+            <span data-en="See full palmares" data-nl="Bekijk volledig palmares">See full palmares</span>
+            <i class="fa-solid fa-chevron-down ch"></i>
+            <span class="hint" data-en="scroll or tap" data-nl="scroll of tik">scroll or tap</span>
+          </button>
+          <div class="scrub-body"><div class="scrub-inner">
             <ul class="palmares">
-              <li><i class="fa-solid fa-circle"></i> <span data-en="Olympic Games — Tokyo 2020 · individual recurve (17th)" data-nl="Olympische Spelen — Tokio 2020 · individueel recurve (17e)">Olympic Games — Tokyo 2020 · individual recurve (17th)</span></li>
-              <li><i class="fa-solid fa-circle"></i> <span data-en="European Games — Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) " data-nl="Europese Spelen — Minsk 2019 &amp; Krakau 2023">European Games — Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) </span></li>
-              <li><i class="fa-solid fa-circle"></i> <span data-en="World University Games — 2025 (TODO)" data-nl="Wereld­universiteitsspelen — 2025">World University Games — 2025 (TODO)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Olympic Games - Tokyo 2020 · individual recurve (17th)" data-nl="Olympische Spelen - Tokio 2020 · individueel recurve (17e)">Olympic Games - Tokyo 2020 · individual recurve (17th)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="European Games - Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) " data-nl="Europese Spelen - Minsk 2019 &amp; Krakau 2023">European Games - Minsk 2019 (TODO) &amp; Kraków 2023 (TODO) </span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="World University Games - 2025 (TODO)" data-nl="Wereld­universiteitsspelen - 2025">World University Games - 2025 (TODO)</span></li>
               <li><i class="fa-solid fa-circle"></i> <span data-en="Multiple World &amp; European Championships and World Cup stages" data-nl="Meerdere WK's, EK's en World Cup-manches">Multiple World &amp; European Championships and World Cup stages</span></li>
               <li><i class="fa-solid fa-circle"></i> <span data-en="Winning streak of 5 years Belgian champion in a row" data-nl="Winstreak van 5 jaar Belgisch kampioen op een rij">Winning streak of 5 years Belgian champion in a row</span></li>
-              <li><i class="fa-solid fa-circle"></i> <span data-en="Belgian national recurve team — ~10 years of selections" data-nl="Belgische nationale recurveploeg — ~10 jaar selecties">Belgian national recurve team — ~10 years of selections</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span data-en="Belgian national recurve team - ~10 years of selections" data-nl="Belgische nationale recurveploeg - ~10 jaar selecties">Belgian national recurve team - ~10 years of selections</span></li>
             </ul>
-          </div>
-        </details>
+          </div></div>
+        </div>
       </div>
     </section>
 
@@ -439,9 +446,9 @@
         <div class="block-head">
           <span class="eyebrow"><span class="num">02</span><span data-en="What I do" data-nl="Wat ik doe">What I do</span></span>
           <h2 data-en="Two worlds, one mindset: precision, patience, hitting the target." data-nl="Twee werelden, één mindset: precisie, geduld en de roos raken.">Two worlds, one mindset: precision, patience, hitting the target.</h2>
-          <p class="punch" style="margin-top:12px" data-en="No official agency — just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work."
-             data-nl="Geen officieel bureau — gewoon hands-on samenwerkingen en persoonlijke projecten. Een idee, een sessie of een partnership in gedachten? Laten we het waarmaken.">
-            No official agency — just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work.
+          <p class="punch" style="margin-top:12px" data-en="No official agency - just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work."
+             data-nl="Geen officieel bureau - gewoon hands-on samenwerkingen en persoonlijke projecten. Een idee, een sessie of een partnership in gedachten? Laten we het waarmaken.">
+            No official agency - just hands-on collaborations and personal projects. Got an idea, a session, or a partnership in mind? Let's make it work.
           </p>
         </div>
 
@@ -450,25 +457,33 @@
             <div class="ic"><i class="fa-solid fa-bullseye"></i></div>
             <h3 data-en="Archery" data-nl="Handboogschieten">Archery</h3>
             <p class="sub" data-en="Coaching, sessions &amp; equipment tuning." data-nl="Coaching, sessies &amp; materiaalafstelling.">Coaching, sessions &amp; equipment tuning.</p>
-            <details class="more">
-              <summary><span data-en="Learn more" data-nl="Lees meer">Learn more</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
-              <div class="content">
+            <div class="scrub" data-scrub>
+              <button class="scrub-trigger" type="button" aria-expanded="false">
+                <span data-en="Learn more" data-nl="Lees meer">Learn more</span>
+                <i class="fa-solid fa-chevron-down ch"></i>
+                <span class="hint" data-en="scroll or tap" data-nl="scroll of tik">scroll or tap</span>
+              </button>
+              <div class="scrub-body"><div class="scrub-inner">
                 <ul>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Group sessions, teambuilding &amp; private parties" data-nl="Groepssessies, teambuilding &amp; privé feesten">Group sessions, teambuilding &amp; private parties</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Intro sessions for businesses, groups, schools &amp; beginners" data-nl="Initiaties voor bedrijven, groepen, scholen &amp; beginners">Intro sessions for businesses, groups, schools &amp; beginners</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Bow &amp; arrow tuning, equipment advice" data-nl="Boog- &amp; pijlafstelling, materiaaladvies">Bow &amp; arrow tuning, equipment advice</span></li>
                 </ul>
-              </div>
-            </details>
+              </div></div>
+            </div>
           </div>
 
           <div class="do-card">
             <div class="ic"><i class="fa-solid fa-microchip"></i></div>
             <h3 data-en="Tech &amp; IT" data-nl="Tech &amp; IT">Tech &amp; IT</h3>
             <p class="sub" data-en="Websites, apps &amp; AI automation." data-nl="Websites, apps &amp; AI-automatisatie.">Websites, apps &amp; AI automation.</p>
-            <details class="more">
-              <summary><span data-en="Learn more" data-nl="Lees meer">Learn more</span> <i class="fa-solid fa-chevron-down ch"></i></summary>
-              <div class="content">
+            <div class="scrub" data-scrub>
+              <button class="scrub-trigger" type="button" aria-expanded="false">
+                <span data-en="Learn more" data-nl="Lees meer">Learn more</span>
+                <i class="fa-solid fa-chevron-down ch"></i>
+                <span class="hint" data-en="scroll or tap" data-nl="scroll of tik">scroll or tap</span>
+              </button>
+              <div class="scrub-body"><div class="scrub-inner">
                 <ul>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Custom websites &amp; business apps" data-nl="Custom websites &amp; business-apps">Custom websites &amp; business apps</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="data analysis en visualisation dashboards" data-nl="Data-analyse en visualisatie dashboards">data analysis en visualisation dashboards</span></li>
@@ -476,10 +491,10 @@
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Home automation (domotica) &amp; smart tech" data-nl="Domotica &amp; slimme techniek">Home automation (domotica) &amp; smart tech</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="Process &amp; efficiency optimisation using AI, n8n workflows or other modern tools" data-nl="Proces- &amp; efficiëntie-optimalisatie">Process &amp; efficiency optimisation using AI, n8n workflows or other modern tools</span></li>
                   <li><i class="fa-solid fa-circle"></i> <span data-en="IT consulting for small businesses &amp; individuals" data-nl="IT-consulting voor kleine bedrijven &amp; particulieren">IT consulting for small businesses &amp; individuals</span></li>
-                  <li><i class="fa-solid fa-circle"></i> <span data-en="(Almost) anything tech-related — just ask!" data-nl="(Bijna) alles tech-gerelateerd — vraag maar!" >(Almost) anything tech-related — just ask!</span></li>
+                  <li><i class="fa-solid fa-circle"></i> <span data-en="(Almost) anything tech-related - just ask!" data-nl="(Bijna) alles tech-gerelateerd - vraag maar!" >(Almost) anything tech-related - just ask!</span></li>
                 </ul>
-              </div>
-            </details>
+              </div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -493,14 +508,14 @@
             <span class="eyebrow"><span class="num">03</span><span data-en="Sponsors &amp; collaborators" data-nl="Sponsors &amp; partners">Sponsors &amp; collaborators</span></span>
             <h2 data-en="Backed by the people who believe in the journey." data-nl="Gesteund door wie in het traject gelooft.">Backed by the people who believe in the journey.</h2>
           </div>
-          <p class="sponsor-cta" data-en='Open to sponsorships, partnerships &amp; speaking — <a href="#contact">let&#39;s talk</a>.'
-             data-nl='Open voor sponsoring, partnerships &amp; speaking — <a href="#contact">laten we praten</a>.'>
-            Open to sponsorships, partnerships &amp; speaking — <a href="#contact">let's talk</a>.
+          <p class="sponsor-cta" data-en='Open to sponsorships, partnerships &amp; speaking - <a href="#contact">let&#39;s talk</a>.'
+             data-nl='Open voor sponsoring, partnerships &amp; speaking - <a href="#contact">laten we praten</a>.'>
+            Open to sponsorships, partnerships &amp; speaking. <a href="#contact">Let's talk</a>.
           </p>
         </div>
 
         <!-- ============================================================
-             SPONSOR LOGOS — replace the placeholders below.
+             SPONSOR LOGOS - replace the placeholders below.
              For each sponsor use:
                <div class="logo"><img src="assets/sponsors/NAME.svg" alt="NAME"></div>
              Keep the list duplicated (two identical halves) for the
@@ -509,12 +524,14 @@
         <div class="marquee">
           <div class="marquee-track" id="logoTrack">
             <!-- placeholders ×6 (auto-duplicated by JS for the loop) -->
-            <div class="logo"><span class="ph"><i class="fa-solid fa-bullseye"></i> <span data-en="Your logo here" data-nl="Jouw logo hier">Your logo here</span></span></div>
-            <div class="logo"><span class="ph"><i class="fa-solid fa-feather-pointed"></i> Sponsor</span></div>
-            <div class="logo"><span class="ph"><i class="fa-solid fa-microchip"></i> Partner</span></div>
-            <div class="logo"><span class="ph"><i class="fa-solid fa-shield-halved"></i> Sponsor</span></div>
-            <div class="logo"><span class="ph"><i class="fa-solid fa-bolt"></i> Partner</span></div>
-            <div class="logo"><span class="ph"><i class="fa-solid fa-handshake"></i> <span data-en="Collaborator" data-nl="Partner">Collaborator</span></span></div>
+            <div class="logo"><img src="assets/partners/avalon.png" alt="Avalon"></div>
+            <div class="logo"><img src="assets/partners/boogsport vlaanderen2.png" alt="Boogsport Vlaanderen2"></div>
+            <div class="logo"><img src="assets/partners/easton archery.png" alt="Easton Archery"></div>
+            <div class="logo"><img src="assets/partners/Sport-Vlaanderen.png" alt="Sport Vlaanderen"></div>
+            <div class="logo"><img src="assets/partners/sporting A.png" alt="Sporting A"></div>
+            <div class="logo"><img src="assets/partners/ssa.png" alt="SSA"></div>
+            <div class="logo"><img src="assets/partners/team belgium.png" alt="Team Belgium"></div>
+            <div class="logo"><img src="assets/partners/wiawis.png" alt="WIAWIS"></div>
           </div>
         </div>
       </div>
@@ -568,12 +585,11 @@
         <div class="contact-aside">
           <span class="eyebrow"><span class="num">05</span><span data-en="Contact" data-nl="Contact">Contact</span></span>
           <h2 data-en="Let's hit the mark together." data-nl="Laten we samen de roos raken.">Let's hit the mark together.</h2>
-          <p class="punch" data-en="A project, a session, a partnership, or just a question — drop me a line and I'll get back to you."
-             data-nl="Een project, een sessie, een partnership of gewoon een vraag — stuur me een bericht en ik kom bij je terug.">
-            A project, a session, a partnership, or just a question — drop me a line and I'll get back to you.
+          <p class="punch" data-en="A project, a session, a partnership, or just a question - drop me a line and I'll get back to you."
+             data-nl="Een project, een sessie, een partnership of gewoon een vraag - stuur me een bericht en ik kom bij je terug.">
+            A project, a session, a partnership, or just a question - drop me a line and I'll get back to you.
           </p>
           <div class="direct">
-            <a href="mailto:jarno.desmedt1@gmail.com"><i class="fa-solid fa-envelope"></i> jarno.desmedt1@gmail.com</a>
             <a href="https://www.linkedin.com/in/jarno-de-smedt/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
             <a href="https://tinrate.com/u/jarnodesmedt" target="_blank" rel="noopener"><i class="fa-solid fa-phone"></i> <span data-en="Book a 1-on-1 call" data-nl="Boek een 1-op-1 gesprek">Book a 1-on-1 call</span></a>
           </div>
@@ -581,7 +597,7 @@
 
         <!-- Contact form. Set the Formspree endpoint below (https://formspree.io/f/XXXX).
              To use Netlify Forms instead: add  netlify  and  name="contact"  to the <form>. -->
-        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <form id="contactForm" action="https://formspree.io/f/mvznkgeo" method="POST">
           <div class="field">
             <label for="name" data-en="Name" data-nl="Naam">Name</label>
             <input id="name" name="name" type="text" required autocomplete="name" />
@@ -604,7 +620,7 @@
 
   <footer>
     <div class="wrap">
-      <div>© <span id="year"></span> Jarno De Smedt · Antwerpen, Belgium 🇧🇪</div>
+      <div>© <span id="year"></span> Jarno De Smedt · Antwerpen, Belgium</div>
       <div data-en="Archer by trade · builder by nature" data-nl="Atleet als lifestyle · bouwer van nature">Archer by trade · builder by nature</div>
     </div>
   </footer>
@@ -615,24 +631,76 @@
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ---------- Lightweight parallax on native scroll (rAF-throttled) ---------- */
-    (function () {
+    /* ---------- Native-scroll parallax + scroll-scrubbed reveals (one rAF loop) ---------- */
+    const Scroller = (function () {
       const plx = Array.from(document.querySelectorAll('[data-parallax]'));
-      if (!plx.length || prefersReduced) return;
+      const scrubs = Array.from(document.querySelectorAll('[data-scrub]')).map(el => ({
+        el,
+        trigger: el.querySelector('.scrub-trigger'),
+        body: el.querySelector('.scrub-body'),
+        inner: el.querySelector('.scrub-inner'),
+        full: 0, pinned: false, cur: -1
+      }));
+
+      function measure() { for (const s of scrubs) s.full = s.inner.offsetHeight; }
+
+      function paint(s, p) {
+        if (Math.abs(p - s.cur) < 0.004) return;
+        s.cur = p;
+        // phase 1 (0 → 0.28): open the container's height while it's still empty
+        // phase 2 (0.28 → 1): fade ALL items in together (opacity), at full height (no clipping)
+        const h = Math.min(1, p / 0.28);
+        const o = Math.max(0, Math.min(1, (p - 0.28) / 0.72));
+        s.el.style.setProperty('--p', p.toFixed(3));
+        s.body.style.height = (h * s.full).toFixed(1) + 'px';
+        s.inner.style.opacity = o.toFixed(3);
+        s.inner.style.transform = 'translateY(' + ((1 - o) * 6).toFixed(1) + 'px)';
+        s.trigger.setAttribute('aria-expanded', o > 0.5 ? 'true' : 'false');
+      }
+
       let ticking = false;
       function update() {
-        const vh = window.innerHeight;
-        for (const el of plx) {
-          const r = el.getBoundingClientRect();
-          const center = r.top + r.height / 2 - vh / 2;
-          el.style.transform = 'translate3d(0,' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px,0)';
-        }
         ticking = false;
+        const vh = window.innerHeight;
+        // parallax
+        if (!prefersReduced) {
+          for (const el of plx) {
+            const r = el.getBoundingClientRect();
+            const center = r.top + r.height / 2 - vh / 2;
+            el.style.transform = 'translate3d(0,' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px,0)';
+          }
+        }
+        // scroll-scrubbed reveals: stays closed until the trigger climbs into the upper
+        // part of the screen, then unfurls through the ~25% mark so you watch it open
+        const startY = vh * 0.65, endY = vh * 0.25;
+        for (const s of scrubs) {
+          if (s.pinned) { paint(s, 1); continue; }
+          const top = s.trigger.getBoundingClientRect().top;
+          let p = (startY - top) / (startY - endY);
+          p = p < 0 ? 0 : p > 1 ? 1 : p;
+          paint(s, p);
+        }
       }
-      window.addEventListener('scroll', () => {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      }, { passive: true });
-      update();
+      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+      // click/tap to pin a panel fully open (toggle), independent of scroll
+      for (const s of scrubs) {
+        s.trigger.addEventListener('click', () => {
+          s.pinned = !s.pinned;
+          if (s.pinned) paint(s, 1); else { s.cur = -1; update(); }
+        });
+      }
+
+      if (prefersReduced) {
+        for (const s of scrubs) { s.body.style.height = 'auto'; s.inner.style.opacity = 1; s.el.style.setProperty('--p', 1); s.trigger.setAttribute('aria-expanded', 'true'); }
+      } else {
+        measure();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); update(); });
+        update();
+      }
+      return { remeasure() { if (!prefersReduced) { measure(); update(); } } };
     })();
 
     /* ---------- Language toggle (EN/NL) ---------- */
@@ -646,6 +714,7 @@
         if (v.indexOf('<') !== -1) el.innerHTML = v; else el.textContent = v;
       });
       document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+      if (typeof Scroller !== 'undefined') Scroller.remeasure();   // text length differs per language → recompute panel heights
     }
     document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
     applyLang(lang);
@@ -701,10 +770,10 @@
       const status = document.getElementById('formStatus');
       if (!form) return;
       const msg = {
-        warn: { en: 'Form isn\'t connected yet — email me directly for now.', nl: 'Formulier nog niet gekoppeld — mail me voorlopig rechtstreeks.' },
+        warn: { en: 'Form isn\'t connected yet - email me directly for now.', nl: 'Formulier nog niet gekoppeld - mail me voorlopig rechtstreeks.' },
         send: { en: 'Sending…', nl: 'Versturen…' },
         ok:   { en: 'Thanks! Your message is on its way. 🎯', nl: 'Bedankt! Je bericht is onderweg. 🎯' },
-        err:  { en: 'Something went wrong — please email me directly.', nl: 'Er ging iets mis — mail me rechtstreeks.' }
+        err:  { en: 'Something went wrong - please email me directly.', nl: 'Er ging iets mis - mail me rechtstreeks.' }
       };
       const t = (k) => msg[k][document.documentElement.lang] || msg[k].en;
 
@@ -715,8 +784,12 @@
         try {
           const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
           if (res.ok) { form.reset(); status.className = 'form-status ok'; status.textContent = t('ok'); }
-          else { status.className = 'form-status err'; status.textContent = t('err'); }
-        } catch (_) { status.className = 'form-status err'; status.textContent = t('err'); }
+          else {
+            const data = await res.json().catch(() => null);
+            console.error('Formspree error', res.status, data);
+            status.className = 'form-status err'; status.textContent = t('err');
+          }
+        } catch (err) { console.error('Contact form submit failed', err); status.className = 'form-status err'; status.textContent = t('err'); }
       });
     })();
   </script>
