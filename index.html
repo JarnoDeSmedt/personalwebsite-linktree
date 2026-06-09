@@ -27,15 +27,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- ============================================================
-       ANALYTICS (privacy-friendly). Pick ONE and fill in your domain.
-       Plausible (paid, recommended): uncomment + set data-domain.
+       ANALYTICS: Cloudflare Web Analytics (privacy-first, no cookie banner).
+       The tracking beacon lives just before </body> at the bottom of this file.
        ============================================================ -->
-  <!-- <script defer data-domain="jarnodesmedt.be" src="https://plausible.io/js/script.outbound-links.js"></script> -->
-  <!-- Free alternative - GoatCounter: <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
-  <!-- Or Google Analytics 4: replace G-XXXX below and uncomment.
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXX');</script>
-  -->
 
   <style>
     :root {
@@ -804,5 +798,7 @@
       });
     })();
   </script>
+
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d345b5dc025349a995703f681414a8e2"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
