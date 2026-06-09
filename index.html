@@ -221,6 +221,9 @@
     html.js .scrub-body { height: 0; will-change: height; }    /* JS: starts collapsed, scroll-driven */
     .scrub-inner { padding-top: 14px; }
     html.js .scrub-inner { opacity: 0; will-change: opacity, transform; }   /* fades in all at once via JS */
+    /* mobile / reduced-motion: plain collapsible accordion (smooth open/close) */
+    .scrub.toggle-mode .scrub-body { transition: height .32s cubic-bezier(.22,.61,.36,1); }
+    .scrub.toggle-mode .scrub-inner { transition: opacity .26s ease; }
     .palmares { display: grid; gap: 8px; color: var(--muted); font-size: .95rem; }
     .palmares li { list-style: none; display: flex; gap: 10px; }
     .palmares li i { color: var(--gold); font-size: .65rem; margin-top: .55em; }
@@ -248,6 +251,7 @@
     .marquee-track { display: flex; gap: 18px; width: max-content; animation: scroll 34s linear infinite; }
     .marquee:hover .marquee-track { animation-play-state: paused; }
     @keyframes scroll { to { transform: translateX(-50%); } }
+    .marquee-row--2 { display: none; }   /* desktop: single row only */
     .logo {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       min-width: 178px; height: 88px; padding: 0 22px;
@@ -258,6 +262,18 @@
     .logo img { max-height: 46px; max-width: 120px; object-fit: contain; }
     .logo .ph { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: .72rem; }
     .logo .ph i { font-size: 1.15rem; color: var(--gold); opacity: .7; }
+    /* mobile: two swipeable rows; JS auto-scrolls them opposite ways (more logos on screen at once) */
+    @media (max-width: 640px) {
+      .marquee-row {
+        overflow-x: auto; overflow-y: hidden; touch-action: pan-x;
+        scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;
+      }
+      .marquee-row::-webkit-scrollbar { display: none; }
+      .marquee-row--2 { display: block; margin-top: 14px; }
+      .marquee-track { animation: none; }   /* JS drives scrollLeft instead → constant auto-scroll + swipe */
+      .logo { min-width: 142px; height: 72px; padding: 0 16px; }
+      .logo img { max-height: 36px; max-width: 96px; }
+    }
 
     /* ---------------- Links / find me ---------------- */
     .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -321,7 +337,7 @@
     .parallax { will-change: transform; }
     @media (prefers-reduced-motion: reduce) {
       .rv, .stagger > * { opacity: 1; transform: none; transition: none; }
-      .marquee-track { animation: none; }
+      /* the sponsor strip keeps scrolling on purpose (site owner's choice) */
     }
   </style>
 </head>
@@ -516,23 +532,31 @@
         </div>
 
         <!-- ============================================================
-             SPONSOR LOGOS - replace the placeholders below.
-             For each sponsor use:
-               <div class="logo"><img src="assets/sponsors/NAME.svg" alt="NAME"></div>
-             Keep the list duplicated (two identical halves) for the
-             seamless infinite scroll. Add the same item to BOTH halves.
+             SPONSOR / PARTNER LOGOS — single source of truth (row 1 below).
+             • Maintain ONE list here. JS auto-duplicates it for the seamless
+               loop and builds the mobile second row (#logoTrack2).
+             • Make a logo clickable by setting its href (opens in a new tab).
+                 <a class="logo" href="https://partner.com" target="_blank" rel="noopener">
+                   <img src="assets/partners/NAME.png" alt="NAME"></a>
+             • The 4 logos below WITHOUT an href still need their URL — replace
+               the "TODO" comment with  href="https://..." target="_blank" rel="noopener".
              ============================================================ -->
         <div class="marquee">
-          <div class="marquee-track" id="logoTrack">
-            <!-- placeholders ×6 (auto-duplicated by JS for the loop) -->
-            <div class="logo"><img src="assets/partners/avalon.png" alt="Avalon"></div>
-            <div class="logo"><img src="assets/partners/boogsport vlaanderen2.png" alt="Boogsport Vlaanderen2"></div>
-            <div class="logo"><img src="assets/partners/easton archery.png" alt="Easton Archery"></div>
-            <div class="logo"><img src="assets/partners/Sport-Vlaanderen.png" alt="Sport Vlaanderen"></div>
-            <div class="logo"><img src="assets/partners/sporting A.png" alt="Sporting A"></div>
-            <div class="logo"><img src="assets/partners/ssa.png" alt="SSA"></div>
-            <div class="logo"><img src="assets/partners/team belgium.png" alt="Team Belgium"></div>
-            <div class="logo"><img src="assets/partners/wiawis.png" alt="WIAWIS"></div>
+          <div class="marquee-row">
+            <div class="marquee-track" id="logoTrack">
+              <a class="logo" href="https://www.avalon-archery.com" target="_blank" rel="noopener"><!-- TODO confirm URL --><img src="assets/partners/avalon.png" alt="Avalon"></a>
+              <a class="logo" href="https://www.boogsport.vlaanderen/" target="_blank" rel="noopener"><img src="assets/partners/boogsport vlaanderen2.png" alt="Boogsport Vlaanderen"></a>
+              <a class="logo" href="https://eastonarchery.com" target="_blank" rel="noopener"><img src="assets/partners/easton archery.png" alt="Easton Archery"></a>
+              <a class="logo" href="https://www.sport.vlaanderen" target="_blank" rel="noopener"><img src="assets/partners/Sport-Vlaanderen.png" alt="Sport Vlaanderen"></a>
+              <a class="logo" href="https://www.antwerpen.be/nl/overzicht/sporting-a/nieuws" target="_blank" rel="noopener"><img src="assets/partners/sporting A.png" alt="Sporting A"></a>
+              <a class="logo" href="https://www.ssa-archery.com/en-us/" target="_blank" rel="noopener"><img src="assets/partners/ssa.png" alt="SSA"></a>
+              <a class="logo" href="https://www.teambelgium.be" target="_blank" rel="noopener"><img src="assets/partners/team belgium.png" alt="Team Belgium"></a>
+              <a class="logo" href="https://www.win-archery.com" target="_blank" rel="noopener"><img src="assets/partners/wiawis.png" alt="WIAWIS"></a>
+            </div>
+          </div>
+          <!-- second row: mobile only, scrolls the opposite way (populated from row 1 by JS) -->
+          <div class="marquee-row marquee-row--2" aria-hidden="true">
+            <div class="marquee-track marquee-track--reverse" id="logoTrack2"></div>
           </div>
         </div>
       </div>
@@ -644,8 +668,15 @@
         full: 0, pinned: false, cur: -1
       }));
 
+      // Scroll-scrubbed reveal only makes sense with a fine pointer + motion allowed (desktop).
+      // On touch devices, or when the user requested reduced motion, fall back to a plain,
+      // robust click accordion (default collapsed) — see setOpen() below.
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const scrubEnabled = !prefersReduced && fine;
+
       function measure() { for (const s of scrubs) s.full = s.inner.offsetHeight; }
 
+      // desktop scroll-scrub painter (p = 0…1 progress)
       function paint(s, p) {
         if (Math.abs(p - s.cur) < 0.004) return;
         s.cur = p;
@@ -660,11 +691,22 @@
         s.trigger.setAttribute('aria-expanded', o > 0.5 ? 'true' : 'false');
       }
 
+      // accordion open/close (mobile / reduced-motion) — robust, no scroll dependency
+      function setOpen(s, open) {
+        s.pinned = open;
+        s.cur = open ? 1 : 0;
+        s.body.style.height = open ? s.full + 'px' : '0px';
+        s.inner.style.opacity = open ? '1' : '0';
+        s.inner.style.transform = 'none';
+        s.el.style.setProperty('--p', open ? '1' : '0');
+        s.trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+
       let ticking = false;
       function update() {
         ticking = false;
         const vh = window.innerHeight;
-        // parallax
+        // parallax (skipped entirely under reduced motion)
         if (!prefersReduced) {
           for (const el of plx) {
             const r = el.getBoundingClientRect();
@@ -672,40 +714,60 @@
             el.style.transform = 'translate3d(0,' + (center * -(parseFloat(el.dataset.parallax) || 0.05)).toFixed(1) + 'px,0)';
           }
         }
-        // scroll-scrubbed reveals: stays closed until the trigger climbs into the upper
-        // part of the screen, then unfurls through the ~25% mark so you watch it open
-        const startY = vh * 0.65, endY = vh * 0.25;
-        for (const s of scrubs) {
-          if (s.pinned) { paint(s, 1); continue; }
-          if (s.clickOnly) { continue; }   // click-only: stays collapsed until tapped
-          const top = s.trigger.getBoundingClientRect().top;
-          let p = (startY - top) / (startY - endY);
-          p = p < 0 ? 0 : p > 1 ? 1 : p;
-          paint(s, p);
+        // scroll-scrubbed reveals (desktop only): closed until the trigger climbs into the
+        // upper part of the screen, then unfurls through the ~25% mark so you watch it open
+        if (scrubEnabled) {
+          const startY = vh * 0.65, endY = vh * 0.25;
+          for (const s of scrubs) {
+            if (s.pinned) { paint(s, 1); continue; }
+            if (s.clickOnly) { continue; }   // click-only: stays collapsed until tapped
+            const top = s.trigger.getBoundingClientRect().top;
+            let p = (startY - top) / (startY - endY);
+            p = p < 0 ? 0 : p > 1 ? 1 : p;
+            paint(s, p);
+          }
         }
       }
       function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
 
-      // click/tap to pin a panel fully open (toggle), independent of scroll
+      // keep open panels at the right height after a resize / font load / language switch
+      function refresh() {
+        measure();
+        if (!scrubEnabled) for (const s of scrubs) { if (s.pinned) s.body.style.height = s.full + 'px'; }
+      }
+
+      // click/tap to toggle a panel open or closed
       for (const s of scrubs) {
         s.trigger.addEventListener('click', () => {
-          s.pinned = !s.pinned;
-          if (s.pinned) paint(s, 1);
-          else if (s.clickOnly) paint(s, 0);   // click-only: snap shut, don't reopen on scroll
-          else { s.cur = -1; update(); }
+          if (scrubEnabled) {
+            // desktop: pin fully open / release back to scroll control
+            s.pinned = !s.pinned;
+            if (s.pinned) paint(s, 1);
+            else if (s.clickOnly) paint(s, 0);   // click-only: snap shut, don't reopen on scroll
+            else { s.cur = -1; update(); }
+          } else {
+            setOpen(s, !s.pinned);   // mobile / reduced-motion: plain, always-reversible toggle
+          }
         });
       }
 
-      if (prefersReduced) {
-        for (const s of scrubs) { s.body.style.height = 'auto'; s.inner.style.opacity = 1; s.el.style.setProperty('--p', 1); s.trigger.setAttribute('aria-expanded', 'true'); }
-      } else {
+      if (scrubEnabled) {
         measure();
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); update(); });
         update();
+      } else {
+        // accordion mode: collapsible, default collapsed, smooth via .toggle-mode CSS transition
+        for (const s of scrubs) s.el.classList.add('toggle-mode');
+        measure();
+        for (const s of scrubs) setOpen(s, false);
+        window.addEventListener('resize', refresh, { passive: true });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+        if (!prefersReduced) window.addEventListener('scroll', onScroll, { passive: true });   // parallax only
+        update();
       }
-      return { remeasure() { if (!prefersReduced) { measure(); update(); } } };
+      return { remeasure() { if (scrubEnabled) { measure(); update(); } else { refresh(); } } };
     })();
 
     /* ---------- Language toggle (EN/NL) ---------- */
@@ -724,10 +786,63 @@
     document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
     applyLang(lang);
 
-    /* ---------- Sponsors: duplicate track for seamless loop ---------- */
+    /* ---------- Sponsors: build the rows, then auto-scroll + make them swipeable on mobile ---------- */
     (function () {
       const track = document.getElementById('logoTrack');
-      if (track) track.innerHTML += track.innerHTML; // second identical half
+      if (!track) return;
+      const originals = Array.from(track.children);   // source logos (edit these in the HTML)
+      // row 1: duplicate once so the loop is seamless (two identical halves)
+      originals.forEach(el => track.appendChild(el.cloneNode(true)));
+      // row 2 (mobile only): same logos in reverse order, two halves, focus-skipped (decorative)
+      const track2 = document.getElementById('logoTrack2');
+      if (track2) {
+        const rev = originals.slice().reverse();
+        const add = el => { const c = el.cloneNode(true); c.setAttribute('tabindex', '-1'); track2.appendChild(c); };
+        rev.forEach(add); rev.forEach(add);
+      }
+
+      // Desktop keeps the pure-CSS marquee. On mobile each row is a native horizontal
+      // scroll container (so it's swipeable); JS nudges scrollLeft every frame for a
+      // constant auto-scroll, pausing while the finger is down and wrapping seamlessly.
+      const mq = window.matchMedia('(max-width: 640px)');
+      const rows = Array.from(document.querySelectorAll('.marquee-row')).map(row => {
+        const reverse = !!row.querySelector('.marquee-track--reverse');
+        return { row, reverse, speed: reverse ? 30 : 36, pos: 0, paused: false, idle: 0 };   // px/sec, slightly different so they drift
+      });
+      const half = r => r.row.scrollWidth / 2;   // one of the two identical halves
+
+      rows.forEach(r => {
+        const pause  = () => { r.paused = true; clearTimeout(r.idle); };
+        const resume = () => { clearTimeout(r.idle); r.idle = setTimeout(() => { r.paused = false; }, 1400); };
+        r.row.addEventListener('pointerdown', pause);
+        r.row.addEventListener('pointerup', resume);
+        r.row.addEventListener('pointercancel', resume);
+      });
+
+      function init() { for (const r of rows) { r.pos = r.reverse ? half(r) : 0; r.row.scrollLeft = r.pos; } }
+
+      let running = false, last = 0;
+      function loop(t) {
+        if (!mq.matches) { running = false; return; }   // desktop → hand back to CSS animation
+        const dt = last ? Math.min(50, t - last) : 16; last = t;
+        for (const r of rows) {
+          const h = half(r);
+          if (!h) continue;
+          if (r.paused) { r.pos = r.row.scrollLeft; }                 // follow the user's swipe
+          else {
+            r.pos += (r.reverse ? -1 : 1) * r.speed * dt / 1000;
+            if (r.pos >= h) r.pos -= h;                               // seamless wrap (halves are identical)
+            if (r.pos < 0)  r.pos += h;
+            r.row.scrollLeft = r.pos;
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+      function start() { if (!running && mq.matches) { running = true; last = 0; init(); requestAnimationFrame(loop); } }
+
+      start();
+      if (mq.addEventListener) mq.addEventListener('change', e => { if (e.matches) start(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (mq.matches) init(); });
     })();
 
     /* ---------- Scroll reveal ---------- */
