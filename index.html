@@ -551,7 +551,7 @@
               <a class="logo" href="https://www.antwerpen.be/nl/overzicht/sporting-a/nieuws" target="_blank" rel="noopener"><img src="assets/partners/sporting A.png" alt="Sporting A"></a>
               <a class="logo" href="https://www.ssa-archery.com/en-us/" target="_blank" rel="noopener"><img src="assets/partners/ssa.png" alt="SSA"></a>
               <a class="logo" href="https://www.teambelgium.be" target="_blank" rel="noopener"><img src="assets/partners/team belgium.png" alt="Team Belgium"></a>
-              <a class="logo" href="https://www.win-archery.com" target="_blank" rel="noopener"><img src="assets/partners/wiawis.png" alt="WIAWIS"></a>
+              <a class="logo" href="https://www.wiawis.com/" target="_blank" rel="noopener"><img src="assets/partners/wiawis.png" alt="WIAWIS"></a>
             </div>
           </div>
           <!-- second row: mobile only, scrolls the opposite way (populated from row 1 by JS) -->
@@ -761,7 +761,7 @@
         // accordion mode: collapsible, default collapsed, smooth via .toggle-mode CSS transition
         for (const s of scrubs) s.el.classList.add('toggle-mode');
         measure();
-        for (const s of scrubs) setOpen(s, false);
+        for (const s of scrubs) setOpen(s, !s.clickOnly);   // open service panels; keep palmares closed
         window.addEventListener('resize', refresh, { passive: true });
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
         if (!prefersReduced) window.addEventListener('scroll', onScroll, { passive: true });   // parallax only
